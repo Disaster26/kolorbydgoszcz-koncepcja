@@ -52,7 +52,7 @@
     });
     hero.addEventListener('pointercancel', function () { sx = null; });
     d.addEventListener('visibilitychange', function () { if (d.hidden) stop(); else start(); });
-    window.addEventListener('load', function () { laduj(1); start(); });
+    window.addEventListener('load', function () { setTimeout(function () { laduj(1); }, 2500); start(); }); /* 1.1: drugie zdjęcie po chwili, nie w trakcie ładowania pierwszego ekranu */
   }
 
   /* ---------- galeria: palec, mysz, strzałki, klawiatura ---------- */
@@ -97,8 +97,8 @@
     tor.addEventListener('pointercancel', koniec);
     tor.addEventListener('click', function (e) { if (ruchTor) { e.preventDefault(); e.stopPropagation(); } }, true);
     tor.addEventListener('dragstart', function (e) { e.preventDefault(); });
-    window.addEventListener('resize', stan);
-    stan();
+    window.addEventListener('resize', function () { window.requestAnimationFrame(stan); });
+    window.requestAnimationFrame(stan); /* 1.1: bez wymuszonego przeliczenia układu w trakcie startu skryptu */
   }
 
   /* ---------- powiększenie zdjęć galerii ---------- */
