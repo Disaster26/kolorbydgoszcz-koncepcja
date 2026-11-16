@@ -61,7 +61,7 @@ p{margin:0 0 1em}
 .link-strz.jasny{color:#fff}
 
 /* nagłówek */
-.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line);backdrop-filter:saturate(1.2) blur(6px)}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line)}
 .top-in{height:var(--hh);display:flex;align-items:center;gap:34px;width:min(1280px,100% - 64px);margin-inline:auto}
 .logo{display:flex;align-items:center;gap:14px;text-decoration:none;flex:none}
 .logo img{height:50px;width:auto}
@@ -621,23 +621,21 @@ body{background:#000}
 :focus-visible{outline-color:#fff}
 
 /* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
-.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict;transform:translateZ(0)}
 .kleksy-ruch{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.2s ease,visibility 0s 1.2s}
 /* tło rusza dopiero po pierwszym ruchu użytkownika (przewinięcie, mysz, dotyk) - pierwszy ekran ładuje się bez animacji */
 .ruch .kleksy-ruch{opacity:.6;visibility:visible;transition:opacity 1.2s ease}
-.kleks,.tf{animation-play-state:paused}
-.ruch .kleks,.ruch .tf{animation-play-state:running}
-.kleks{position:absolute;display:block;height:auto}
+.kleks{animation-play-state:paused}
+.ruch .kleks{animation-play-state:running}
+.ukryta .kleks{animation-play-state:paused}
+.kleks{position:absolute;display:block;height:auto;will-change:transform;contain:paint}
 .k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
 .k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
 .k3{width:min(18vmax,300px);top:20%;left:-5vmax;animation:kl-c 24s ease-in-out infinite alternate}
-@keyframes kl-a{from{transform:rotate(0deg) scale(1)}to{transform:translate(-5vw,8vh) rotate(28deg) scale(1.1)}}
-@keyframes kl-b{from{transform:rotate(0deg) scale(1.05)}to{transform:translate(6vw,-6vh) rotate(-22deg) scale(.94)}}
-@keyframes kl-c{from{transform:translate(0,0) rotate(0deg)}to{transform:translate(3vw,22vh) rotate(70deg)}}
-@supports (animation-timeline:scroll()){
-  .kleksy-ruch{animation:kl-przewijanie linear both;animation-timeline:scroll(root)}
-  @keyframes kl-przewijanie{to{transform:translateY(-14vh) rotate(-10deg)}}
-}
+@keyframes kl-a{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(-5vw,8vh,0) rotate(28deg)}}
+@keyframes kl-b{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(6vw,-6vh,0) rotate(-22deg)}}
+@keyframes kl-c{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(3vw,22vh,0) rotate(70deg)}}
+/* 1.3.1: bez animacji sterowanych przewijaniem (przeliczanie stylów w każdej klatce) - ruch daje dryf plam i przenikanie zdjęć */
 
 /* wszystkie sekcje na jednym czarnym tle, karty w graficie */
 .hero,.sek,.sek-jasna,.sek-ciemna,.okruszki-pas,.okruszki-pas.jasna,.okruszki-pas.ciemna{background:transparent}
@@ -708,16 +706,11 @@ body{background:#000}
 /* ===== 1.3: zamysł strony-wzoru klientki (Deturner): treść w dużych grafitowych panelach na czarnym tle, między panelami ruchome tło ===== */
 :root{--gleb:#111213;--panel-p:clamp(28px,4.4vw,64px);--panel-r:20px}
 /* tło: przyciemnione zdjęcia sklepu, przenikające się przy przewijaniu (wczytywane dopiero po pierwszym przewinięciu) */
-.tlo-foto{position:absolute;inset:-4%;opacity:0;visibility:hidden;transition:opacity 1.2s ease}
+.tlo-foto{position:absolute;inset:-4%;opacity:0;visibility:hidden;transition:opacity 1.2s ease;will-change:transform;contain:strict}
 .tlo-foto.on{opacity:1;visibility:visible}
-.tf{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1.4s ease;filter:blur(2px) saturate(1.15);animation:kl-tf 40s ease-in-out infinite alternate}
-.tf.on{opacity:.46}
-.tlo-foto::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%)}
-@keyframes kl-tf{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,-2%)}}
-@supports (animation-timeline:scroll()){
-  .tlo-foto{animation:kl-tf-przew linear both;animation-timeline:scroll(root)}
-  @keyframes kl-tf-przew{to{transform:translateY(-3%)}}
-}
+/* 1.3.1: rozmycie, przyciemnienie i winieta wypalone w plikach tlo-*.webp - bez filter/blur w CSS; widoczne najwyżej 2 zdjęcia (bieżące + wygaszane) */
+.tf{position:absolute;inset:0;background:#000 center/cover no-repeat;opacity:0;visibility:hidden;transition:opacity 1.4s ease,visibility 0s 1.4s;will-change:opacity}
+.tf.on{opacity:1;visibility:visible;transition:opacity 1.4s ease}
 /* panele */
 .sek{padding:clamp(28px,6vw,110px) 0}
 .sek>.wrap,.podstrona>.wrap,#galeria{width:min(1400px,100% - 48px);margin-inline:auto;background:var(--karta);border-radius:var(--panel-r);padding:var(--panel-p)}
@@ -759,3 +752,12 @@ body{background:#000}
   .kleks,.kleksy-ruch,.tf,.tlo-foto{animation:none !important;transition:none !important}
 }
 @media print{.kleksy{display:none}}
+
+/* 1.3.1 wydajność przewijania: bez backdrop-filter i cieni nad ruchomym tłem, prostszy wariant na telefonie */
+.top{backdrop-filter:none;-webkit-backdrop-filter:none;background:#000;box-shadow:none;border-bottom:1px solid var(--line)}
+.mob-pasek{box-shadow:none;border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .k3{display:none}
+  .k1{animation-duration:36s}
+  .k2{animation-duration:44s}
+}

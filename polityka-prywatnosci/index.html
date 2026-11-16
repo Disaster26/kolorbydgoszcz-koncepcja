@@ -84,7 +84,7 @@ p{margin:0 0 1em}
 .link-strz:hover svg{transform:translateX(3px)}
 .link-strz.jasny{color:#fff}
 /* nagłówek */
-.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line);backdrop-filter:saturate(1.2) blur(6px)}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line)}
 .top-in{height:var(--hh);display:flex;align-items:center;gap:34px;width:min(1280px,100% - 64px);margin-inline:auto}
 .logo{display:flex;align-items:center;gap:14px;text-decoration:none;flex:none}
 .logo img{height:50px;width:auto}
@@ -607,23 +607,21 @@ h1.h2{font-size:clamp(30px,3vw,44px);line-height:1.1}
 body{background:#000}
 :focus-visible{outline-color:#fff}
 /* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
-.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict;transform:translateZ(0)}
 .kleksy-ruch{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.2s ease,visibility 0s 1.2s}
 /* tło rusza dopiero po pierwszym ruchu użytkownika (przewinięcie, mysz, dotyk) - pierwszy ekran ładuje się bez animacji */
 .ruch .kleksy-ruch{opacity:.6;visibility:visible;transition:opacity 1.2s ease}
-.kleks,.tf{animation-play-state:paused}
-.ruch .kleks,.ruch .tf{animation-play-state:running}
-.kleks{position:absolute;display:block;height:auto}
+.kleks{animation-play-state:paused}
+.ruch .kleks{animation-play-state:running}
+.ukryta .kleks{animation-play-state:paused}
+.kleks{position:absolute;display:block;height:auto;will-change:transform;contain:paint}
 .k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
 .k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
 .k3{width:min(18vmax,300px);top:20%;left:-5vmax;animation:kl-c 24s ease-in-out infinite alternate}
-@keyframes kl-a{from{transform:rotate(0deg) scale(1)}to{transform:translate(-5vw,8vh) rotate(28deg) scale(1.1)}}
-@keyframes kl-b{from{transform:rotate(0deg) scale(1.05)}to{transform:translate(6vw,-6vh) rotate(-22deg) scale(.94)}}
-@keyframes kl-c{from{transform:translate(0,0) rotate(0deg)}to{transform:translate(3vw,22vh) rotate(70deg)}}
-@supports (animation-timeline:scroll()){
-  .kleksy-ruch{animation:kl-przewijanie linear both;animation-timeline:scroll(root)}
-  @keyframes kl-przewijanie{to{transform:translateY(-14vh) rotate(-10deg)}}
-}
+@keyframes kl-a{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(-5vw,8vh,0) rotate(28deg)}}
+@keyframes kl-b{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(6vw,-6vh,0) rotate(-22deg)}}
+@keyframes kl-c{from{transform:translate3d(0,0,0) rotate(0deg)}to{transform:translate3d(3vw,22vh,0) rotate(70deg)}}
+/* 1.3.1: bez animacji sterowanych przewijaniem (przeliczanie stylów w każdej klatce) - ruch daje dryf plam i przenikanie zdjęć */
 /* wszystkie sekcje na jednym czarnym tle, karty w graficie */
 .hero,.sek,.sek-jasna,.sek-ciemna,.okruszki-pas,.okruszki-pas.jasna,.okruszki-pas.ciemna{background:transparent}
 .sek-ciemna{color:var(--tx)}
@@ -692,16 +690,11 @@ body{background:#000}
 /* ===== 1.3: zamysł strony-wzoru klientki (Deturner): treść w dużych grafitowych panelach na czarnym tle, między panelami ruchome tło ===== */
 :root{--gleb:#111213;--panel-p:clamp(28px,4.4vw,64px);--panel-r:20px}
 /* tło: przyciemnione zdjęcia sklepu, przenikające się przy przewijaniu (wczytywane dopiero po pierwszym przewinięciu) */
-.tlo-foto{position:absolute;inset:-4%;opacity:0;visibility:hidden;transition:opacity 1.2s ease}
+.tlo-foto{position:absolute;inset:-4%;opacity:0;visibility:hidden;transition:opacity 1.2s ease;will-change:transform;contain:strict}
 .tlo-foto.on{opacity:1;visibility:visible}
-.tf{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1.4s ease;filter:blur(2px) saturate(1.15);animation:kl-tf 40s ease-in-out infinite alternate}
-.tf.on{opacity:.46}
-.tlo-foto::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%)}
-@keyframes kl-tf{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,-2%)}}
-@supports (animation-timeline:scroll()){
-  .tlo-foto{animation:kl-tf-przew linear both;animation-timeline:scroll(root)}
-  @keyframes kl-tf-przew{to{transform:translateY(-3%)}}
-}
+/* 1.3.1: rozmycie, przyciemnienie i winieta wypalone w plikach tlo-*.webp - bez filter/blur w CSS; widoczne najwyżej 2 zdjęcia (bieżące + wygaszane) */
+.tf{position:absolute;inset:0;background:#000 center/cover no-repeat;opacity:0;visibility:hidden;transition:opacity 1.4s ease,visibility 0s 1.4s;will-change:opacity}
+.tf.on{opacity:1;visibility:visible;transition:opacity 1.4s ease}
 /* panele */
 .sek{padding:clamp(28px,6vw,110px) 0}
 .sek>.wrap,.podstrona>.wrap,#galeria{width:min(1400px,100% - 48px);margin-inline:auto;background:var(--karta);border-radius:var(--panel-r);padding:var(--panel-p)}
@@ -743,6 +736,14 @@ body{background:#000}
   .kleks,.kleksy-ruch,.tf,.tlo-foto{animation:none !important;transition:none !important}
 }
 @media print{.kleksy{display:none}}
+/* 1.3.1 wydajność przewijania: bez backdrop-filter i cieni nad ruchomym tłem, prostszy wariant na telefonie */
+.top{backdrop-filter:none;-webkit-backdrop-filter:none;background:#000;box-shadow:none;border-bottom:1px solid var(--line)}
+.mob-pasek{box-shadow:none;border-top:1px solid var(--line)}
+@media (max-width:760px){
+  .k3{display:none}
+  .k1{animation-duration:36s}
+  .k2{animation-duration:44s}
+}
 </style>
 <style>
 .wylinka-badge{display:inline-flex;align-items:center;gap:.4em;color:inherit;text-decoration:none;font-size:.875em;line-height:1;opacity:.85}
@@ -772,7 +773,7 @@ ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:
 <body class="privacy-policy wp-singular page-template-default page page-id-5 wp-theme-kolor">
 <a class="skip" href="#tresc">Przejdź do treści</a>
 <div class="kleksy" aria-hidden="true">
-<div class="tlo-foto"><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/spraye-800.webp"></div><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/mieszalnia-800.webp"></div><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/regaly-novol-800.webp"></div></div>
+<div class="tlo-foto"><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-spraye-1280.webp" data-tf-m="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-spraye-720.webp"></div><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-mieszalnia-1280.webp" data-tf-m="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-mieszalnia-720.webp"></div><div class="tf" data-tf="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-regaly-novol-1280.webp" data-tf-m="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/tlo-regaly-novol-720.webp"></div></div>
 <div class="kleksy-ruch">
 <svg class="kleks k1" viewBox="-20 -20 240 240" focusable="false"><defs><radialGradient id="kg1" cx="45%" cy="45%" r="60%"><stop offset="0" stop-color="#FF7A1A"/><stop offset=".7" stop-color="#FF6600"/><stop offset="1" stop-color="#E04E00"/></radialGradient></defs><g fill="url(#kg1)"><path d="M164.6 100.0C165.5 105.4 160.7 111.7 158.4 117.2C156.2 122.6 154.4 128.2 151.2 132.9C148.0 137.6 142.9 140.0 139.3 145.4C135.8 150.8 134.5 160.1 129.8 165.2C125.0 170.2 117.2 177.0 110.9 175.6C104.6 174.3 97.5 161.1 91.8 156.9C86.2 152.6 83.1 151.2 77.1 150.1C71.2 149.1 61.3 153.2 56.2 150.6C51.1 148.0 50.7 139.5 46.4 134.4C42.1 129.4 31.9 126.2 30.4 120.4C28.9 114.7 35.4 106.3 37.3 100.0C39.1 93.7 39.1 87.9 41.7 82.9C44.3 77.8 52.5 77.6 52.9 69.7C53.3 61.8 41.5 42.1 44.0 35.4C46.5 28.7 59.8 28.1 67.8 29.6C75.8 31.1 84.9 45.1 92.0 44.5C99.2 43.8 104.8 26.4 110.7 25.5C116.7 24.7 122.9 34.6 127.7 39.4C132.5 44.1 136.3 49.2 139.7 54.2C143.0 59.2 145.7 64.2 147.8 69.2C150.0 74.3 150.0 79.4 152.8 84.5C155.6 89.6 163.6 94.6 164.6 100.0Z"/><circle cx="151.3" cy="197.5" r="3.8"/><circle cx="117.7" cy="207.5" r="3.7"/><circle cx="-11.2" cy="109.1" r="6.1"/><circle cx="32.4" cy="15.1" r="5.7"/></g></svg>
 <svg class="kleks k2" viewBox="-20 -20 240 240" focusable="false"><defs><radialGradient id="kg2" cx="55%" cy="50%" r="62%"><stop offset="0" stop-color="#FFB000"/><stop offset=".55" stop-color="#FF8A00"/><stop offset="1" stop-color="#FF5A00"/></radialGradient></defs><g fill="url(#kg2)"><path d="M155.3 100.0C155.5 106.0 161.4 112.0 161.6 118.1C161.8 124.1 159.3 130.7 156.4 136.3C153.6 141.8 149.2 147.2 144.4 151.3C139.7 155.4 133.7 159.7 127.7 160.6C121.6 161.5 114.3 156.6 108.2 156.7C102.1 156.9 98.4 158.2 91.1 161.7C83.8 165.3 72.4 177.3 64.4 178.0C56.3 178.8 44.6 174.1 42.8 166.0C41.0 158.0 54.5 137.8 53.6 129.8C52.7 121.9 39.4 123.3 37.4 118.4C35.5 113.4 42.3 106.2 41.8 100.0C41.4 93.8 33.4 86.1 34.9 80.9C36.4 75.6 48.2 74.6 50.9 68.4C53.6 62.2 47.5 48.2 51.2 43.7C54.9 39.1 66.4 41.6 73.2 41.2C79.9 40.8 85.6 41.7 91.6 41.4C97.5 41.1 103.5 37.9 108.7 39.3C114.0 40.6 118.4 46.5 123.0 49.7C127.6 52.8 132.0 55.0 136.2 58.2C140.4 61.5 144.0 65.1 148.0 69.1C152.1 73.1 159.2 77.1 160.4 82.3C161.7 87.4 155.1 94.0 155.3 100.0Z"/><circle cx="191.0" cy="150.3" r="4.1"/><circle cx="157.6" cy="189.2" r="4.6"/><circle cx="49.8" cy="189.0" r="5.8"/><circle cx="24.4" cy="176.9" r="3.9"/></g></svg>
@@ -894,6 +895,6 @@ ol,ul{box-sizing:border-box}:root :where(.wp-block-list.has-background){padding:
   </div>
 </div>
 <script>/* 1.1: baner widoczny od pierwszego malowania (bez czekania na site.js), gdy brak zapisanego wyboru */(function(){if(!/(?:^|; )kl_zgoda=/.test(document.cookie)){var c=document.getElementById('ck');if(c)c.hidden=false}})();</script>
-<script src="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/js/site.js?v=8097f1ee" defer></script>
+<script src="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/js/site.js?v=949deb75" defer></script>
 </body>
 </html>

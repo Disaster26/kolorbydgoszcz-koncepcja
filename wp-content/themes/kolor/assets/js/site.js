@@ -253,35 +253,36 @@
   }
 })();
 
-/* 1.3: tło ze zdjęć sklepu - wczytywane dopiero po pierwszym przewinięciu (nie konkuruje z pierwszym ekranem), zdjęcie zmienia się z postępem przewijania */
+/* 1.3.1: tło ze zdjęć sklepu - wczytywane po pierwszym przewinięciu; w obsłudze przewijania tylko requestAnimationFrame i jeden odczyt scrollY */
 (function () {
   var t = document.querySelector('.tlo-foto');
   if (!t) return;
-  var f = [].slice.call(t.querySelectorAll('.tf')), akt = -1, start = false, czeka = false;
+  var d = document.documentElement, f = [].slice.call(t.querySelectorAll('.tf')), akt = -1, start = false, czeka = false, maks = 1;
+  var maly = matchMedia('(max-width:760px)').matches;
+  function mierz() { maks = Math.max(1, d.scrollHeight - innerHeight); }
   function pokaz(i) {
     if (i === akt) return;
     var el = f[i];
-    if (!el.style.backgroundImage) el.style.backgroundImage = 'url("' + el.getAttribute('data-tf') + '")';
-    f.forEach(function (x, j) { x.classList.toggle('on', j === i); });
+    if (!el.style.backgroundImage) el.style.backgroundImage = 'url("' + el.getAttribute(maly ? 'data-tf-m' : 'data-tf') + '")';
+    if (akt >= 0) f[akt].classList.remove('on');
+    el.classList.add('on');
     akt = i;
   }
-  function licz() {
-    czeka = false;
-    var h = document.documentElement.scrollHeight - innerHeight;
-    var p = h > 0 ? scrollY / h : 0;
-    pokaz(Math.min(f.length - 1, Math.floor(p * f.length)));
-  }
+  function licz() { czeka = false; pokaz(Math.min(f.length - 1, Math.floor(scrollY / maks * f.length))); }
   function ruch() {
-    document.documentElement.classList.add('ruch');
+    d.classList.add('ruch');
     ['pointermove', 'touchstart', 'keydown'].forEach(function (e) { removeEventListener(e, ruch); });
   }
   ['pointermove', 'touchstart', 'keydown'].forEach(function (e) { addEventListener(e, ruch, { passive: true }); });
   function przewin() {
     if (!start) {
       if (scrollY < 40) return;
-      start = true; ruch(); t.classList.add('on');
+      start = true; mierz(); ruch(); t.classList.add('on');
     }
     if (!czeka) { czeka = true; requestAnimationFrame(licz); }
   }
   addEventListener('scroll', przewin, { passive: true });
+  addEventListener('resize', function () { if (start) mierz(); }, { passive: true });
+  addEventListener('load', mierz);
+  document.addEventListener('visibilitychange', function () { d.classList.toggle('ukryta', document.hidden); });
 })();
