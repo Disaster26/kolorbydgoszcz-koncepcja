@@ -600,3 +600,110 @@ h1.h2{font-size:clamp(30px,3vw,44px);line-height:1.1}
   .okruszki-pas{padding-top:18px}
   .okruszki-pas+.sek{padding-top:26px}
 }
+
+/* ===== 1.3: uwagi z telefonu 16.11 - czarne tło, jeden grafit dla kart, ruchome plamy farby, większe logo i telefon ===== */
+:root{
+  --bg:#000000;
+  --bg2:#000000;
+  --karta:#1B1C1E;
+  --karta-h:#26282B;
+  --pole:#0D0D0E;
+  --line:#2D2F33;
+  --tx:#DADBDD;
+  --mut:#B8BBBF;
+  --jasna:#1B1C1E;
+  --ciemna:#000000;
+  --granat:#000000;
+  --btn-tx:#000000;
+  --hh:92px;
+}
+body{background:#000}
+:focus-visible{outline-color:#fff}
+
+/* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
+.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;opacity:.55;contain:strict}
+.kleksy-ruch{position:absolute;inset:0}
+.kleks{position:absolute;display:block;height:auto;will-change:transform}
+.k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
+.k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
+.k3{width:min(18vmax,300px);top:20%;left:-5vmax;animation:kl-c 24s ease-in-out infinite alternate}
+@keyframes kl-a{from{transform:rotate(0deg) scale(1)}to{transform:translate(-5vw,8vh) rotate(28deg) scale(1.1)}}
+@keyframes kl-b{from{transform:rotate(0deg) scale(1.05)}to{transform:translate(6vw,-6vh) rotate(-22deg) scale(.94)}}
+@keyframes kl-c{from{transform:translate(0,0) rotate(0deg)}to{transform:translate(3vw,22vh) rotate(70deg)}}
+@supports (animation-timeline:scroll()){
+  .kleksy-ruch{animation:kl-przewijanie linear both;animation-timeline:scroll(root)}
+  @keyframes kl-przewijanie{to{transform:translateY(-14vh) rotate(-10deg)}}
+}
+
+/* wszystkie sekcje na jednym czarnym tle, karty w graficie */
+.hero,.sek,.sek-jasna,.sek-ciemna,.okruszki-pas,.okruszki-pas.jasna,.okruszki-pas.ciemna{background:transparent}
+.sek-ciemna{color:var(--tx)}
+.okruszki-pas.ciemna ol,.okruszki-pas.ciemna a{color:var(--mut)}
+.hero-foto::after{background:linear-gradient(90deg,rgba(0,0,0,.84) 0%,rgba(0,0,0,.6) 34%,rgba(0,0,0,.14) 62%,rgba(0,0,0,0) 78%),linear-gradient(0deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 45%)}
+.hero-kropki{background:rgba(0,0,0,.6)}
+.of{background:var(--karta)}
+.of-foto{background:#232427}
+.rz-nav button{background:var(--karta);border-color:#3A3C40}
+.ws-tx .duzy,.ws-lista li,.ws-sklep p{color:var(--tx)}
+.ws-lista,.ws-lista li{border-color:var(--line)}
+.ws-sklep{background:var(--karta)}
+.warsztaty-krotko{background:var(--karta);border-radius:12px;padding:clamp(30px,4.5vw,64px)}
+.mapa,.mz{background:var(--karta)}
+.form{background:var(--karta);border-color:var(--line)}
+.form input:not([type=checkbox]):not([type=file]),.form select,.form textarea,.plik{background:var(--pole);border-color:#3A3C40}
+.form input:focus,.form select:focus,.form textarea:focus{background:var(--pole)}
+.form select option{background:var(--pole)}
+.plik{border-color:#4A4D52}
+.stopka{background:#000;border-top:1px solid var(--line)}
+.stopka-dol{border-top-color:var(--line)}
+.ck-in{background:var(--karta)}
+.ck-nie{border-color:#5A5D62}
+.ck-nie:hover{background:var(--karta-h)}
+.mob-pasek{background:rgba(0,0,0,.94)}
+.mob-pasek a{background:var(--karta)}
+.lb{background:rgba(0,0,0,.97)}
+
+/* nagłówek: większe logo i numer telefonu */
+.top{background:rgba(0,0,0,.92)}
+.logo{gap:16px}
+.logo img{height:66px;width:auto}
+.logo-tx{padding-left:16px}
+.logo-tx b{font-size:19px}
+.logo-tx span{font-size:14px}
+.top-tel{background:var(--karta);padding:10px 20px 10px 15px;gap:12px;border-radius:8px}
+.top-tel:hover{background:var(--karta-h)}
+.top-tel .ik{width:24px;height:24px}
+.top-tel span{font-size:25px;line-height:1.05;letter-spacing:.005em}
+.top-tel small{font-size:13px;margin-bottom:2px}
+.menu-mob-tel a{background:var(--karta)}
+@media (max-width:1240px){
+  .top-tel span{font-size:23px}
+}
+@media (max-width:760px){
+  :root{--hh:76px}
+  .hero{background:transparent}
+  .hero-foto::after{background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)}
+  .top-in{gap:12px}
+  .logo img{height:56px}
+  .top-tel{width:auto;height:50px;padding:0 14px 0 12px;gap:8px;border-radius:8px;justify-content:flex-start}
+  .top-tel span{display:flex;font-size:20px}
+  .top-tel small{display:none}
+  .top-tel .ik{width:20px;height:20px}
+  .k1{width:125vw;top:-8vh;right:-60vw}
+  .k2{width:100vw;bottom:-10vh;left:-50vw}
+  .k3{width:38vw;top:30%;left:-14vw}
+  .warsztaty-krotko{width:calc(100% - 24px);padding:30px 20px}
+}
+@media (max-width:600px){
+  .logo-tx{display:none}
+}
+@media (max-width:380px){
+  .top-in{gap:8px;width:calc(100% - 28px)}
+  .logo img{height:52px}
+  .top-tel{padding:0 11px 0 10px;gap:7px}
+  .top-tel span{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .kleks,.kleksy-ruch{animation:none !important}
+}
+@media print{.kleksy{display:none}}

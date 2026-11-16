@@ -11,7 +11,7 @@
 <meta property="og:title" content="Lakiery samochodowe i sklep lakierniczy Bydgoszcz | KOLOR"><meta property="og:description" content="Lakiery samochodowe, motocyklowe, meblowe RAL i NCS oraz przemysłowe w Bydgoszczy. Spray na zamówienie, Motip, materiały lakiernicze i kosmetyki."><meta property="og:url" content="https://disaster26.github.io/kolorbydgoszcz-koncepcja/oferta/"><meta property="og:image" content="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/og-kolor.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["AutoPartsStore","Store"],"@id":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/#firma","name":"KOLOR - Mieszalnia lakierów","legalName":"Przedsiębiorstwo Wielobranżowe KOLOR s.c.","url":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/","logo":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/logo-512.png","image":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/og-kolor.jpg","telephone":"+48 52 376 03 91","email":"biuro@kolor.bydgoszcz.pl","foundingDate":"1996","address":{"@type":"PostalAddress","streetAddress":"Ujejskiego 6a","postalCode":"85-168","addressLocality":"Bydgoszcz","addressRegion":"kujawsko-pomorskie","addressCountry":"PL"},"geo":{"@type":"GeoCoordinates","latitude":53.10901,"longitude":18.01024},"hasMap":"https://www.google.com/maps/search/?api=1\u0026query=Kolor%20s.c.%20Mieszalnia%20lakier%C3%B3w%20samochodowych%2C%20Ujejskiego%206a%2C%2085-168%20Bydgoszcz","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"16:00"}],"taxID":"9670070823","contactPoint":[{"@type":"ContactPoint","telephone":"+48 52 376 03 91","contactType":"customer service","name":"Mieszalnia lakierów","areaServed":"PL","availableLanguage":"pl"},{"@type":"ContactPoint","telephone":"+48 52 375 46 68","contactType":"sales","name":"Sklep","areaServed":"PL","availableLanguage":"pl"},{"@type":"ContactPoint","telephone":"+48 691 391 628","contactType":"sales","name":"Sklep - telefon komórkowy","areaServed":"PL","availableLanguage":"pl"}],"sameAs":["https://www.facebook.com/PW-Kolor-lakiery-i-kosmetyki-samochodowe-467983583241650/","https://motolakiery.pl/"],"knowsAbout":["mieszalnia lakierów","dobór koloru lakieru","lakier w sprayu na zamówienie","lakiery samochodowe","lakiery motocyklowe","lakiery do mebli RAL NCS","lakiery przemysłowe","materiały lakiernicze"],"priceRange":"$$","identifier":[{"@type":"PropertyValue","propertyID":"REGON","value":"091344480"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Strona główna","item":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/"},{"@type":"ListItem","position":2,"name":"Oferta","item":"https://disaster26.github.io/kolorbydgoszcz-koncepcja/oferta/"}]}]}</script>
-<meta name="theme-color" content="#0A1220">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/img/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="https://disaster26.github.io/kolorbydgoszcz-koncepcja/wp-content/themes/kolor/assets/fonts/archivo-700-rdzen.woff2" crossorigin>
@@ -588,7 +588,110 @@ h1.h2{font-size:clamp(30px,3vw,44px);line-height:1.1}
   .okruszki-pas{padding-top:18px}
   .okruszki-pas+.sek{padding-top:26px}
 }
-</style>
+/* ===== 1.3: uwagi z telefonu 16.11 - czarne tło, jeden grafit dla kart, ruchome plamy farby, większe logo i telefon ===== */
+:root{
+  --bg:#000000;
+  --bg2:#000000;
+  --karta:#1B1C1E;
+  --karta-h:#26282B;
+  --pole:#0D0D0E;
+  --line:#2D2F33;
+  --tx:#DADBDD;
+  --mut:#B8BBBF;
+  --jasna:#1B1C1E;
+  --ciemna:#000000;
+  --granat:#000000;
+  --btn-tx:#000000;
+  --hh:92px;
+}
+body{background:#000}
+:focus-visible{outline-color:#fff}
+/* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
+.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;opacity:.55;contain:strict}
+.kleksy-ruch{position:absolute;inset:0}
+.kleks{position:absolute;display:block;height:auto;will-change:transform}
+.k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
+.k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
+.k3{width:min(18vmax,300px);top:20%;left:-5vmax;animation:kl-c 24s ease-in-out infinite alternate}
+@keyframes kl-a{from{transform:rotate(0deg) scale(1)}to{transform:translate(-5vw,8vh) rotate(28deg) scale(1.1)}}
+@keyframes kl-b{from{transform:rotate(0deg) scale(1.05)}to{transform:translate(6vw,-6vh) rotate(-22deg) scale(.94)}}
+@keyframes kl-c{from{transform:translate(0,0) rotate(0deg)}to{transform:translate(3vw,22vh) rotate(70deg)}}
+@supports (animation-timeline:scroll()){
+  .kleksy-ruch{animation:kl-przewijanie linear both;animation-timeline:scroll(root)}
+  @keyframes kl-przewijanie{to{transform:translateY(-14vh) rotate(-10deg)}}
+}
+/* wszystkie sekcje na jednym czarnym tle, karty w graficie */
+.hero,.sek,.sek-jasna,.sek-ciemna,.okruszki-pas,.okruszki-pas.jasna,.okruszki-pas.ciemna{background:transparent}
+.sek-ciemna{color:var(--tx)}
+.okruszki-pas.ciemna ol,.okruszki-pas.ciemna a{color:var(--mut)}
+.hero-foto::after{background:linear-gradient(90deg,rgba(0,0,0,.84) 0%,rgba(0,0,0,.6) 34%,rgba(0,0,0,.14) 62%,rgba(0,0,0,0) 78%),linear-gradient(0deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 45%)}
+.hero-kropki{background:rgba(0,0,0,.6)}
+.of{background:var(--karta)}
+.of-foto{background:#232427}
+.rz-nav button{background:var(--karta);border-color:#3A3C40}
+.ws-tx .duzy,.ws-lista li,.ws-sklep p{color:var(--tx)}
+.ws-lista,.ws-lista li{border-color:var(--line)}
+.ws-sklep{background:var(--karta)}
+.warsztaty-krotko{background:var(--karta);border-radius:12px;padding:clamp(30px,4.5vw,64px)}
+.mapa,.mz{background:var(--karta)}
+.form{background:var(--karta);border-color:var(--line)}
+.form input:not([type=checkbox]):not([type=file]),.form select,.form textarea,.plik{background:var(--pole);border-color:#3A3C40}
+.form input:focus,.form select:focus,.form textarea:focus{background:var(--pole)}
+.form select option{background:var(--pole)}
+.plik{border-color:#4A4D52}
+.stopka{background:#000;border-top:1px solid var(--line)}
+.stopka-dol{border-top-color:var(--line)}
+.ck-in{background:var(--karta)}
+.ck-nie{border-color:#5A5D62}
+.ck-nie:hover{background:var(--karta-h)}
+.mob-pasek{background:rgba(0,0,0,.94)}
+.mob-pasek a{background:var(--karta)}
+.lb{background:rgba(0,0,0,.97)}
+/* nagłówek: większe logo i numer telefonu */
+.top{background:rgba(0,0,0,.92)}
+.logo{gap:16px}
+.logo img{height:66px;width:auto}
+.logo-tx{padding-left:16px}
+.logo-tx b{font-size:19px}
+.logo-tx span{font-size:14px}
+.top-tel{background:var(--karta);padding:10px 20px 10px 15px;gap:12px;border-radius:8px}
+.top-tel:hover{background:var(--karta-h)}
+.top-tel .ik{width:24px;height:24px}
+.top-tel span{font-size:25px;line-height:1.05;letter-spacing:.005em}
+.top-tel small{font-size:13px;margin-bottom:2px}
+.menu-mob-tel a{background:var(--karta)}
+@media (max-width:1240px){
+  .top-tel span{font-size:23px}
+}
+@media (max-width:760px){
+  :root{--hh:76px}
+  .hero{background:transparent}
+  .hero-foto::after{background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 35%)}
+  .top-in{gap:12px}
+  .logo img{height:56px}
+  .top-tel{width:auto;height:50px;padding:0 14px 0 12px;gap:8px;border-radius:8px;justify-content:flex-start}
+  .top-tel span{display:flex;font-size:20px}
+  .top-tel small{display:none}
+  .top-tel .ik{width:20px;height:20px}
+  .k1{width:125vw;top:-8vh;right:-60vw}
+  .k2{width:100vw;bottom:-10vh;left:-50vw}
+  .k3{width:38vw;top:30%;left:-14vw}
+  .warsztaty-krotko{width:calc(100% - 24px);padding:30px 20px}
+}
+@media (max-width:600px){
+  .logo-tx{display:none}
+}
+@media (max-width:380px){
+  .top-in{gap:8px;width:calc(100% - 28px)}
+  .logo img{height:52px}
+  .top-tel{padding:0 11px 0 10px;gap:7px}
+  .top-tel span{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .kleks,.kleksy-ruch{animation:none !important}
+}
+@media print{.kleksy{display:none}}
+</style>
 <style>
 .wylinka-badge{display:inline-flex;align-items:center;gap:.4em;color:inherit;text-decoration:none;font-size:.875em;line-height:1;opacity:.85}
 .wylinka-badge:hover,.wylinka-badge:focus-visible{opacity:1}
@@ -604,6 +707,11 @@ h1.h2{font-size:clamp(30px,3vw,44px);line-height:1.1}
 </head>
 <body class="wp-singular page-template page-template-szablony page-template-oferta page-template-szablonyoferta-php page page-id-22 wp-theme-kolor">
 <a class="skip" href="#tresc">Przejdź do treści</a>
+<div class="kleksy" aria-hidden="true"><div class="kleksy-ruch">
+<svg class="kleks k1" viewBox="-20 -20 240 240" focusable="false"><defs><radialGradient id="kg1" cx="45%" cy="45%" r="60%"><stop offset="0" stop-color="#FF7A1A"/><stop offset=".7" stop-color="#FF6600"/><stop offset="1" stop-color="#E04E00"/></radialGradient></defs><g fill="url(#kg1)"><path d="M164.6 100.0C165.5 105.4 160.7 111.7 158.4 117.2C156.2 122.6 154.4 128.2 151.2 132.9C148.0 137.6 142.9 140.0 139.3 145.4C135.8 150.8 134.5 160.1 129.8 165.2C125.0 170.2 117.2 177.0 110.9 175.6C104.6 174.3 97.5 161.1 91.8 156.9C86.2 152.6 83.1 151.2 77.1 150.1C71.2 149.1 61.3 153.2 56.2 150.6C51.1 148.0 50.7 139.5 46.4 134.4C42.1 129.4 31.9 126.2 30.4 120.4C28.9 114.7 35.4 106.3 37.3 100.0C39.1 93.7 39.1 87.9 41.7 82.9C44.3 77.8 52.5 77.6 52.9 69.7C53.3 61.8 41.5 42.1 44.0 35.4C46.5 28.7 59.8 28.1 67.8 29.6C75.8 31.1 84.9 45.1 92.0 44.5C99.2 43.8 104.8 26.4 110.7 25.5C116.7 24.7 122.9 34.6 127.7 39.4C132.5 44.1 136.3 49.2 139.7 54.2C143.0 59.2 145.7 64.2 147.8 69.2C150.0 74.3 150.0 79.4 152.8 84.5C155.6 89.6 163.6 94.6 164.6 100.0Z"/><circle cx="151.3" cy="197.5" r="3.8"/><circle cx="117.7" cy="207.5" r="3.7"/><circle cx="-11.2" cy="109.1" r="6.1"/><circle cx="32.4" cy="15.1" r="5.7"/></g></svg>
+<svg class="kleks k2" viewBox="-20 -20 240 240" focusable="false"><defs><radialGradient id="kg2" cx="55%" cy="50%" r="62%"><stop offset="0" stop-color="#FFB000"/><stop offset=".55" stop-color="#FF8A00"/><stop offset="1" stop-color="#FF5A00"/></radialGradient></defs><g fill="url(#kg2)"><path d="M155.3 100.0C155.5 106.0 161.4 112.0 161.6 118.1C161.8 124.1 159.3 130.7 156.4 136.3C153.6 141.8 149.2 147.2 144.4 151.3C139.7 155.4 133.7 159.7 127.7 160.6C121.6 161.5 114.3 156.6 108.2 156.7C102.1 156.9 98.4 158.2 91.1 161.7C83.8 165.3 72.4 177.3 64.4 178.0C56.3 178.8 44.6 174.1 42.8 166.0C41.0 158.0 54.5 137.8 53.6 129.8C52.7 121.9 39.4 123.3 37.4 118.4C35.5 113.4 42.3 106.2 41.8 100.0C41.4 93.8 33.4 86.1 34.9 80.9C36.4 75.6 48.2 74.6 50.9 68.4C53.6 62.2 47.5 48.2 51.2 43.7C54.9 39.1 66.4 41.6 73.2 41.2C79.9 40.8 85.6 41.7 91.6 41.4C97.5 41.1 103.5 37.9 108.7 39.3C114.0 40.6 118.4 46.5 123.0 49.7C127.6 52.8 132.0 55.0 136.2 58.2C140.4 61.5 144.0 65.1 148.0 69.1C152.1 73.1 159.2 77.1 160.4 82.3C161.7 87.4 155.1 94.0 155.3 100.0Z"/><circle cx="191.0" cy="150.3" r="4.1"/><circle cx="157.6" cy="189.2" r="4.6"/><circle cx="49.8" cy="189.0" r="5.8"/><circle cx="24.4" cy="176.9" r="3.9"/></g></svg>
+<svg class="kleks k3" viewBox="-20 -20 240 240" focusable="false"><defs><radialGradient id="kg3" cx="40%" cy="40%" r="65%"><stop offset="0" stop-color="#FF1F8E"/><stop offset=".55" stop-color="#FF3D5A"/><stop offset="1" stop-color="#FF6A1A"/></radialGradient></defs><g fill="url(#kg3)"><path d="M165.8 100.0C165.7 105.4 156.8 110.4 154.6 116.0C152.4 121.7 155.0 128.7 152.7 133.9C150.4 139.0 145.3 143.4 140.7 147.0C136.2 150.6 130.5 152.2 125.3 155.3C120.0 158.4 115.6 162.0 109.5 165.9C103.4 169.8 94.9 179.6 88.7 178.7C82.5 177.7 77.4 165.5 72.5 160.3C67.5 155.0 62.7 152.0 59.1 147.2C55.5 142.4 53.5 136.6 51.0 131.5C48.4 126.4 45.9 121.7 44.0 116.5C42.0 111.2 39.9 105.7 39.3 100.0C38.7 94.3 40.4 89.0 40.4 82.5C40.4 76.0 40.5 71.0 39.2 60.9C37.9 50.8 26.8 25.3 32.4 22.0C38.0 18.6 62.9 36.7 72.9 40.6C82.8 44.5 86.0 46.4 92.1 45.3C98.2 44.2 103.0 36.2 109.5 34.0C116.0 31.7 124.9 29.9 131.1 31.9C137.3 33.9 142.9 40.5 146.8 46.0C150.8 51.4 153.5 58.4 154.9 64.7C156.3 71.0 153.4 77.9 155.2 83.8C157.1 89.7 165.9 94.6 165.8 100.0Z"/><circle cx="77.6" cy="199.3" r="3.0"/><circle cx="7.1" cy="50.2" r="4.1"/><circle cx="46.6" cy="16.0" r="3.1"/></g></svg>
+</div></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <symbol id="i-tel" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.6a1 1 0 01-.25 1z" fill="currentColor"/></symbol>
 <symbol id="i-strz" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
