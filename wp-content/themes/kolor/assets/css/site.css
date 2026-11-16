@@ -621,8 +621,8 @@ body{background:#000}
 :focus-visible{outline-color:#fff}
 
 /* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
-.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;opacity:.55;contain:strict}
-.kleksy-ruch{position:absolute;inset:0}
+.kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+.kleksy-ruch{position:absolute;inset:0;opacity:.6}
 .kleks{position:absolute;display:block;height:auto;will-change:transform}
 .k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
 .k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
@@ -647,7 +647,6 @@ body{background:#000}
 .ws-tx .duzy,.ws-lista li,.ws-sklep p{color:var(--tx)}
 .ws-lista,.ws-lista li{border-color:var(--line)}
 .ws-sklep{background:var(--karta)}
-.warsztaty-krotko{background:var(--karta);border-radius:12px;padding:clamp(30px,4.5vw,64px)}
 .mapa,.mz{background:var(--karta)}
 .form{background:var(--karta);border-color:var(--line)}
 .form input:not([type=checkbox]):not([type=file]),.form select,.form textarea,.plik{background:var(--pole);border-color:#3A3C40}
@@ -692,7 +691,6 @@ body{background:#000}
   .k1{width:125vw;top:-8vh;right:-60vw}
   .k2{width:100vw;bottom:-10vh;left:-50vw}
   .k3{width:38vw;top:30%;left:-14vw}
-  .warsztaty-krotko{width:calc(100% - 24px);padding:30px 20px}
 }
 @media (max-width:600px){
   .logo-tx{display:none}
@@ -703,7 +701,57 @@ body{background:#000}
   .top-tel{padding:0 11px 0 10px;gap:7px}
   .top-tel span{font-size:18px}
 }
+/* ===== 1.3: zamysł strony-wzoru klientki (Deturner): treść w dużych grafitowych panelach na czarnym tle, między panelami ruchome tło ===== */
+:root{--gleb:#111213;--panel-p:clamp(28px,4.4vw,64px);--panel-r:20px}
+/* tło: przyciemnione zdjęcia sklepu, przenikające się przy przewijaniu (wczytywane dopiero po pierwszym przewinięciu) */
+.tlo-foto{position:absolute;inset:-4%;opacity:0;transition:opacity 1.2s ease}
+.tlo-foto.on{opacity:1}
+.tf{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1.4s ease;filter:blur(2px) saturate(1.15);animation:kl-tf 40s ease-in-out infinite alternate}
+.tf.on{opacity:.46}
+.tlo-foto::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%)}
+@keyframes kl-tf{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.12) translate(-1.5%,-2%)}}
+@supports (animation-timeline:scroll()){
+  .tlo-foto{animation:kl-tf-przew linear both;animation-timeline:scroll(root)}
+  @keyframes kl-tf-przew{to{transform:translateY(-3%)}}
+}
+/* panele */
+.sek{padding:clamp(28px,6vw,110px) 0}
+.sek>.wrap,.podstrona>.wrap,#galeria{width:min(1400px,100% - 48px);margin-inline:auto;background:var(--karta);border-radius:var(--panel-r);padding:var(--panel-p)}
+#galeria{padding-inline:0;overflow:hidden;margin:0 auto clamp(28px,6vw,110px)}
+#galeria>.wrap{width:auto;background:none;border-radius:0;padding:0 var(--panel-p)}
+.rz-tor{padding:0 var(--panel-p);scroll-padding:0 var(--panel-p)}
+.rz-nav button{background:var(--gleb)}
+.okruszki-pas{padding:clamp(28px,6vw,110px) 0 0}
+.okruszki-pas>.wrap{width:min(1400px,100% - 48px);background:var(--karta);border-radius:var(--panel-r) var(--panel-r) 0 0;padding:clamp(22px,2.6vw,34px) var(--panel-p) 0}
+.okruszki-pas+.sek{padding-top:0}
+.okruszki-pas+.sek>.wrap{border-top-left-radius:0;border-top-right-radius:0;padding-top:clamp(18px,2.4vw,34px)}
+.podstrona{padding:clamp(28px,6vw,110px) 0}
+.podstrona>.wrap.wrap-waski{width:min(980px,100% - 48px)}
+/* karty oferty jak produkty na wzorze: zdjęcie w ciemniejszym kaflu, tekst wprost na grafitowym panelu */
+.of{background:transparent;border-radius:0;overflow:visible}
+.of-foto{border-radius:14px;background:var(--gleb)}
+.of-tx{padding:18px 2px 4px}
+.ws-sklep,.form,.mapa,.mz{background:var(--gleb)}
+.form{border-color:#2A2B2E}
+.form input:not([type=checkbox]):not([type=file]),.form select,.form textarea,.plik{background:#000}
+.form input:focus,.form select:focus,.form textarea:focus{background:#000}
+.reszta{border-top-color:var(--line)}
+.dobor-foto img,.of-zdj img,.rz img,.rz-a{border-radius:14px}
+.hero{background:#000}
+@media (max-width:760px){
+  :root{--panel-p:22px;--panel-r:16px}
+  .sek>.wrap,.podstrona>.wrap,#galeria,.okruszki-pas>.wrap,.podstrona>.wrap.wrap-waski{width:calc(100% - 20px)}
+  .sek>.wrap,.podstrona>.wrap{padding:30px 18px}
+  #galeria{padding:30px 0}
+  #galeria>.wrap{padding:0 18px}
+  .okruszki-pas>.wrap{padding:20px 18px 0}
+  .okruszki-pas+.sek>.wrap{padding-top:16px}
+  .rz-tor{padding:0 18px;scroll-padding:0 18px}
+  .oferta{margin:0 -18px;padding:0 18px 4px;scroll-padding:0 18px}
+  .of{flex-basis:82%}
+  .hero{background:#000}
+}
 @media (prefers-reduced-motion:reduce){
-  .kleks,.kleksy-ruch{animation:none !important}
+  .kleks,.kleksy-ruch,.tf,.tlo-foto{animation:none !important;transition:none !important}
 }
 @media print{.kleksy{display:none}}

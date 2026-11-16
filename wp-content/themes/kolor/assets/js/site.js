@@ -252,3 +252,31 @@
     new IntersectionObserver(function (en) { wKontakcie = en[0].isIntersecting; ustaw(); }, { threshold: 0.15 }).observe(kontakt);
   }
 })();
+
+/* 1.3: tło ze zdjęć sklepu - wczytywane dopiero po pierwszym przewinięciu (nie konkuruje z pierwszym ekranem), zdjęcie zmienia się z postępem przewijania */
+(function () {
+  var t = document.querySelector('.tlo-foto');
+  if (!t) return;
+  var f = [].slice.call(t.querySelectorAll('.tf')), akt = -1, start = false, czeka = false;
+  function pokaz(i) {
+    if (i === akt) return;
+    var el = f[i];
+    if (!el.style.backgroundImage) el.style.backgroundImage = 'url("' + el.getAttribute('data-tf') + '")';
+    f.forEach(function (x, j) { x.classList.toggle('on', j === i); });
+    akt = i;
+  }
+  function licz() {
+    czeka = false;
+    var h = document.documentElement.scrollHeight - innerHeight;
+    var p = h > 0 ? scrollY / h : 0;
+    pokaz(Math.min(f.length - 1, Math.floor(p * f.length)));
+  }
+  function przewin() {
+    if (!start) {
+      if (scrollY < 40) return;
+      start = true; t.classList.add('on');
+    }
+    if (!czeka) { czeka = true; requestAnimationFrame(licz); }
+  }
+  addEventListener('scroll', przewin, { passive: true });
+})();
