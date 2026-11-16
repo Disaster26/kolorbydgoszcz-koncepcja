@@ -622,7 +622,11 @@ body{background:#000}
 
 /* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
 .kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
-.kleksy-ruch{position:absolute;inset:0;opacity:.6}
+.kleksy-ruch{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+/* tło rusza dopiero po pierwszym ruchu użytkownika (przewinięcie, mysz, dotyk) - pierwszy ekran ładuje się bez animacji */
+.ruch .kleksy-ruch{opacity:.6}
+.kleks,.tf{animation-play-state:paused}
+.ruch .kleks,.ruch .tf{animation-play-state:running}
 .kleks{position:absolute;display:block;height:auto;will-change:transform}
 .k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
 .k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}

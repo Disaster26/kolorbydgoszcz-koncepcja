@@ -271,10 +271,15 @@
     var p = h > 0 ? scrollY / h : 0;
     pokaz(Math.min(f.length - 1, Math.floor(p * f.length)));
   }
+  function ruch() {
+    document.documentElement.classList.add('ruch');
+    ['pointermove', 'touchstart', 'keydown'].forEach(function (e) { removeEventListener(e, ruch); });
+  }
+  ['pointermove', 'touchstart', 'keydown'].forEach(function (e) { addEventListener(e, ruch, { passive: true }); });
   function przewin() {
     if (!start) {
       if (scrollY < 40) return;
-      start = true; t.classList.add('on');
+      start = true; ruch(); t.classList.add('on');
     }
     if (!czeka) { czeka = true; requestAnimationFrame(licz); }
   }
