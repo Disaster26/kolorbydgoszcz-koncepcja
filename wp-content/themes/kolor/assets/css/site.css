@@ -622,12 +622,12 @@ body{background:#000}
 
 /* plamy farby w tle: warstwa stała pod treścią (z-index:-1 nad tłem body), animowany tylko transform */
 .kleksy{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
-.kleksy-ruch{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+.kleksy-ruch{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.2s ease,visibility 0s 1.2s}
 /* tło rusza dopiero po pierwszym ruchu użytkownika (przewinięcie, mysz, dotyk) - pierwszy ekran ładuje się bez animacji */
-.ruch .kleksy-ruch{opacity:.6}
+.ruch .kleksy-ruch{opacity:.6;visibility:visible;transition:opacity 1.2s ease}
 .kleks,.tf{animation-play-state:paused}
 .ruch .kleks,.ruch .tf{animation-play-state:running}
-.kleks{position:absolute;display:block;height:auto;will-change:transform}
+.kleks{position:absolute;display:block;height:auto}
 .k1{width:min(68vmax,1100px);top:-16vmax;right:-22vmax;animation:kl-a 28s ease-in-out infinite alternate}
 .k2{width:min(50vmax,820px);bottom:-18vmax;left:-18vmax;animation:kl-b 34s ease-in-out infinite alternate}
 .k3{width:min(18vmax,300px);top:20%;left:-5vmax;animation:kl-c 24s ease-in-out infinite alternate}
@@ -708,8 +708,8 @@ body{background:#000}
 /* ===== 1.3: zamysł strony-wzoru klientki (Deturner): treść w dużych grafitowych panelach na czarnym tle, między panelami ruchome tło ===== */
 :root{--gleb:#111213;--panel-p:clamp(28px,4.4vw,64px);--panel-r:20px}
 /* tło: przyciemnione zdjęcia sklepu, przenikające się przy przewijaniu (wczytywane dopiero po pierwszym przewinięciu) */
-.tlo-foto{position:absolute;inset:-4%;opacity:0;transition:opacity 1.2s ease}
-.tlo-foto.on{opacity:1}
+.tlo-foto{position:absolute;inset:-4%;opacity:0;visibility:hidden;transition:opacity 1.2s ease}
+.tlo-foto.on{opacity:1;visibility:visible}
 .tf{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity 1.4s ease;filter:blur(2px) saturate(1.15);animation:kl-tf 40s ease-in-out infinite alternate}
 .tf.on{opacity:.46}
 .tlo-foto::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%)}
